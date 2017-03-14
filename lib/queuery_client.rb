@@ -4,13 +4,7 @@ require "queuery_client/client"
 
 module QueueryClient
   class << self
-    def endpoint=(endpoint)
-      @endpoint = endpoint
-    end
-
-    def endpoint
-      @endpoint || 'http://localhost:3000'
-    end
+    attr_accessor :endpoint
 
     def query(select_stmt)
       client = Client.new(endpoint)
@@ -18,5 +12,4 @@ module QueueryClient
       RedshiftConnector::UrlDataFileBundle.new(res['data_objects'])
     end
   end
-
 end
