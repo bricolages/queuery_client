@@ -1,8 +1,6 @@
 # QueueryClient
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/queuery_client`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Queuery client for Ruby.
 
 ## Installation
 
@@ -12,25 +10,40 @@ Add this line to your application's Gemfile:
 gem 'queuery_client'
 ```
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install queuery_client
-
 ## Usage
 
-TODO: Write usage instructions here
+### If you don't use Rails
 
-## Development
+```ruby
+# configuration
+RedshiftConnector.logger = Logger.new(STDOUT)
+GarageClient.name = "queuery-example"
+QueueryClient.endpoint = 'http://localhost:3000'
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+# query
+select_stmt = 'select column_a, column_b from the_great_table limit 10000; -- an awesome query shows amazing fact up'
+bundle = QueueryClient.query(select_stmt)
+bundle.each do |row|
+  # do some useful works
+  p row
+end
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+### If you are on Rails
 
-## Contributing
+In `config/initializers/queuery.rb`:
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/queuery_client.
+```ruby
+QueueryClient.endpoint = 'http://localhost:3000'
+```
 
+In your code:
+
+```ruby
+select_stmt = 'select column_a, column_b from the_great_table limit 10000; -- an awesome query shows amazing fact up'
+bundle = QueueryClient.query(select_stmt)
+bundle.each do |row|
+  # do some useful works
+  p row
+end
+```
