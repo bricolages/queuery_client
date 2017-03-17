@@ -10,30 +10,28 @@ module QueueryClient
       @endpoint = endpoint
     end
 
-    def query(select_stmt)
-      result = garage_client.post("/queries", q: select_stmt)
-      result.response.body
+    def execute_query(select_stmt)
+      garage_client.post("/v1/queries", q: select_stmt)
     end
 
-    def status(job_id)
-      result = garage_client.get("/queries/#{job_id}")
-      result.response.body
+    def get_query(id)
+      garage_client.get("/v1/queries/#{id}")
     end
 
-    def wait_for(job_id)
+    def wait_for(id)
       loop do
-        res = status(job_id)
-        case res['status']
+        query = get_query(id)
+        case query.status
         when 'success', 'failed'
-          return res
+          return query
         end
         sleep 1
       end
     end
 
     def query_and_wait(select_stmt)
-      res = query(select_stmt)
-      wait_for(res['job_id'])
+      query = execute_query(select_stmt)
+      wait_for(query.id)
     end
 
     def garage_client

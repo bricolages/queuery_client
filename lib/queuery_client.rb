@@ -8,8 +8,8 @@ module QueueryClient
 
     def query(select_stmt)
       client = Client.new(endpoint)
-      res = client.query_and_wait(select_stmt)
-      RedshiftConnector::UrlDataFileBundle.new(res['data_objects'])
+      query = client.query_and_wait(select_stmt)
+      RedshiftConnector::UrlDataFileBundle.new(query.data_file_urls)
     end
   end
 end
