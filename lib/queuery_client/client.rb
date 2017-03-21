@@ -1,13 +1,7 @@
-require 'garage_client'
-
 module QueueryClient
-  GarageClient.configure do |config|
-    config.name = 'queuery-client'
-  end
-
   class Client
-    def initialize(endpoint)
-      @endpoint = endpoint
+    def initialize(options = {})
+      @options = options
     end
 
     def execute_query(select_stmt)
@@ -35,10 +29,20 @@ module QueueryClient
     end
 
     def garage_client
-      @garage_client ||= GarageClient::Client.new(
-        endpoint: @endpoint,
+      @garage_client ||= BasicAuthGarageClient.new(
+        endpoint: options.endpoint,
         path_prefix: '/',
+        login: options.login,
+        password: options.password
       )
+    end
+
+    def options
+      default_options.merge(@options)
+    end
+
+    def default_options
+      QueueryClient.configuration
     end
   end
 end

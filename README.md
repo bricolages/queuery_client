@@ -17,8 +17,14 @@ gem 'queuery_client'
 ```ruby
 # configuration
 RedshiftConnector.logger = Logger.new(STDOUT)
-GarageClient.name = "queuery-example"
-QueueryClient.endpoint = 'http://localhost:3000'
+GarageClient.configure do |config|
+  config.name = "queuery-example"
+end
+QueueryClient.configure do |config|
+  config.endpoint = 'http://localhost:3000'
+  config.login = 'example'
+  config.password = 'password'
+end
 
 # query
 select_stmt = 'select column_a, column_b from the_great_table limit 10000; -- an awesome query shows amazing fact up'
@@ -34,7 +40,11 @@ end
 In `config/initializers/queuery.rb`:
 
 ```ruby
-QueueryClient.endpoint = 'http://localhost:3000'
+QueueryClient.configure do |config|
+  config.endpoint = 'http://localhost:3000'
+  config.login = 'example'
+  config.password = 'password'
+end
 ```
 
 In your code:
