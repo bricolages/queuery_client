@@ -19,7 +19,7 @@ module QueueryClient
         when 'success', 'failed'
           return query
         end
-        sleep 1
+        sleep 3
       end
     end
 
