@@ -32,8 +32,8 @@ module QueueryClient
       @garage_client ||= BasicAuthGarageClient.new(
         endpoint: options.endpoint,
         path_prefix: '/',
-        login: options.login,
-        password: options.password
+        login: options.token,
+        password: options.token_secret
       )
     end
 

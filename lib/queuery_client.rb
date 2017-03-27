@@ -7,8 +7,6 @@ require "queuery_client/client"
 
 module QueueryClient
   class << self
-    attr_accessor :endpoint, :login, :password
-
     def configuration
       @configuration ||= Configuration.new
     end

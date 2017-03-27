@@ -14,8 +14,8 @@ module QueueryClient
 
     [
       :endpoint,
-      :login,
-      :password,
+      :token,
+      :token_secret,
     ].each do |key|
       define_method(key) do
         options.fetch(key)
