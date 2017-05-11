@@ -1,4 +1,4 @@
-require "redshift-connector/url_data_file_bundle"
+require "redshift-connector/data_file"
 require "queuery_client/version"
 require "queuery_client/configuration"
 require "queuery_client/basic_auth_garage_client"
