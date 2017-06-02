@@ -4,6 +4,7 @@ require "queuery_client/configuration"
 require "queuery_client/basic_auth_garage_client"
 require "queuery_client/query_error"
 require "queuery_client/client"
+require "queuery_client/queuery_data_file_bundle"
 
 module QueueryClient
   class << self
@@ -20,7 +21,7 @@ module QueueryClient
       query = client.query_and_wait(select_stmt)
       case query.status
       when 'success'
-        RedshiftConnector::UrlDataFileBundle.new(query.data_file_urls)
+        QueueryDataFileBundle.new(query.data_file_urls)
       when 'failed'
         raise QueryError.new(query.error)
       end
