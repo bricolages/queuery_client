@@ -1,3 +1,4 @@
+require 'redshift_connector/url_data_file_bundle'
 require 'uri'
 
 module QueueryClient
