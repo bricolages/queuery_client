@@ -16,8 +16,7 @@ module QueueryClient
     end
 
     def query(select_stmt)
-      client = Client.new
-      client.query(select_stmt)
+      Client.new.query(select_stmt)
     end
   end
 end
