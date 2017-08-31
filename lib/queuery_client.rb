@@ -16,14 +16,7 @@ module QueueryClient
     end
 
     def query(select_stmt)
-      client = Client.new
-      query = client.query_and_wait(select_stmt)
-      case query.status
-      when 'success'
-        QueueryDataFileBundle.new(query.data_file_urls)
-      when 'failed'
-        raise QueryError.new(query.error)
-      end
+      Client.new.query(select_stmt)
     end
   end
 end

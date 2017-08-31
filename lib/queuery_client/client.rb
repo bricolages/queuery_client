@@ -28,6 +28,16 @@ module QueueryClient
       wait_for(query.id)
     end
 
+    def query(select_stmt)
+      query = query_and_wait(select_stmt)
+      case query.status
+      when 'success'
+        QueueryDataFileBundle.new(query.data_file_urls)
+      when 'failed'
+        raise QueryError.new(query.error)
+      end
+    end
+
     def garage_client
       @garage_client ||= BasicAuthGarageClient.new(
         endpoint: options.endpoint,
