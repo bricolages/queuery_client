@@ -15,8 +15,8 @@ module QueueryClient
       configuration.instance_eval(&block)
     end
 
-    def query(select_stmt)
-      Client.new.query(select_stmt)
+    def query(select_stmt, values = [])
+      Client.new.query(select_stmt, values)
     end
   end
 end
