@@ -4,8 +4,8 @@ module QueueryClient
       @options = options
     end
 
-    def execute_query(select_stmt)
-      garage_client.post("/v1/queries", q: select_stmt)
+    def execute_query(select_stmt, values)
+      garage_client.post("/v1/queries", q: select_stmt, values: values)
     end
 
     def get_query(id)
@@ -23,13 +23,13 @@ module QueueryClient
       end
     end
 
-    def query_and_wait(select_stmt)
-      query = execute_query(select_stmt)
+    def query_and_wait(select_stmt, values)
+      query = execute_query(select_stmt, values)
       wait_for(query.id)
     end
 
-    def query(select_stmt)
-      query = query_and_wait(select_stmt)
+    def query(select_stmt, values)
+      query = query_and_wait(select_stmt, values)
       case query.status
       when 'success'
         QueueryDataFileBundle.new(query.data_file_urls)
