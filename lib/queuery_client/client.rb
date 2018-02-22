@@ -9,7 +9,7 @@ module QueueryClient
     end
 
     def get_query(id)
-      garage_client.get("/v1/queries/#{id}")
+      garage_client.get("/v1/queries/#{id}", fields: '__default__,s3_prefix')
     end
 
     def wait_for(id)
@@ -32,7 +32,10 @@ module QueueryClient
       query = query_and_wait(select_stmt, values)
       case query.status
       when 'success'
-        QueueryDataFileBundle.new(query.data_file_urls)
+        QueueryDataFileBundle.new(
+          query.data_file_urls,
+          s3_prefix: query.s3_prefix,
+        )
       when 'failed'
         raise QueryError.new(query.error)
       end
