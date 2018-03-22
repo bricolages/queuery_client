@@ -10,15 +10,14 @@ Gem::Specification.new do |spec|
   spec.email         = ["hidekazu-kobayashi@cookpad.com"]
 
   spec.summary       = %q{Client library of Queuery}
-  spec.homepage      = "https://github.com/koba789/queuery_client"
+  spec.homepage      = "https://github.com/bricolages/queuery_client"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
   if spec.respond_to?(:metadata)
-    spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
+    spec.metadata['allowed_push_host'] = "https://rubygems.org"
   else
-    raise "RubyGems 2.0 or newer is required to protect against " \
-      "public gem pushes."
+    raise "RubyGems 2.0 or newer is required to protect against public gem pushes."
   end
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
