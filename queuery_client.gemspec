@@ -8,8 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = QueueryClient::VERSION
   spec.authors       = ["Hidekazu Kobayashi"]
   spec.email         = ["hidekazu-kobayashi@cookpad.com"]
+  spec.licence       = "MIT"
 
-  spec.summary       = %q{Client library of Queuery}
+  spec.summary       = "Client library for Queuery Redshift HTTP API"
   spec.homepage      = "https://github.com/bricolages/queuery_client"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
