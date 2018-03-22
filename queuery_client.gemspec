@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = QueueryClient::VERSION
   spec.authors       = ["Hidekazu Kobayashi"]
   spec.email         = ["hidekazu-kobayashi@cookpad.com"]
-  spec.licence       = "MIT"
+  spec.license       = "MIT"
 
   spec.summary       = "Client library for Queuery Redshift HTTP API"
   spec.homepage      = "https://github.com/bricolages/queuery_client"
