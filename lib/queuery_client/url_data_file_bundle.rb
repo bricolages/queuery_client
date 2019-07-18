@@ -1,12 +1,10 @@
+require 'queuery_client/data_file_bundle'
 require 'queuery_client/url_data_file'
-require 'queuery_client/data_file_bundle_readable'
 require 'uri'
 require 'logger'
 
 module QueueryClient
-  class UrlDataFileBundle
-    include DataFileBundleReadable
-
+  class UrlDataFileBundle < DataFileBundle
     def initialize(urls, s3_prefix:, logger: Logger.new($stderr))
       raise ArgumentError, 'no URL given' if urls.empty?
       @data_files = urls.map {|url| UrlDataFile.new(URI.parse(url)) }

@@ -1,12 +1,10 @@
+require 'queuery_client/data_file_bundle'
 require 'queuery_client/s3_data_file'
-require 'queuery_client/data_file_bundle_readable'
 require 'aws-sdk-s3'
 require 'logger'
 
 module QueueryClient
-  class S3DataFileBundle
-    include DataFileBundleReadable
-
+  class S3DataFileBundle < DataFileBundle
     def initialize(bucket, prefix, s3_client: nil, logger: Logger.new($stderr))
       @s3_client = s3_client || Aws::S3::Client.new   # Use env to inject credentials
       @bucket = bucket

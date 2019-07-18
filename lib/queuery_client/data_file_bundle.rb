@@ -1,5 +1,7 @@
 module QueueryClient
-  module DataFileBundleReadable
+  class DataFileBundle
+    # abstract data_files :: [DataFile]
+
     def each_row(&block)
       data_files.each do |file|
         if file.data_object?
