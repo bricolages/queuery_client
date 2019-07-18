@@ -32,7 +32,7 @@ module QueueryClient
       query = query_and_wait(select_stmt, values)
       case query.status
       when 'success'
-        QueueryDataFileBundle.new(
+        UrlDataFileBundle.new(
           query.data_file_urls,
           s3_prefix: query.s3_prefix,
         )
