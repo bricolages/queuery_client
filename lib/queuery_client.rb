@@ -3,7 +3,8 @@ require "queuery_client/configuration"
 require "queuery_client/basic_auth_garage_client"
 require "queuery_client/query_error"
 require "queuery_client/client"
-require "queuery_client/queuery_data_file_bundle"
+require "queuery_client/url_data_file_bundle"
+require "queuery_client/s3_data_file_bundle"
 
 module QueueryClient
   class << self
