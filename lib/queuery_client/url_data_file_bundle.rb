@@ -14,6 +14,7 @@ module QueueryClient
 
     attr_reader :data_files
     attr_reader :s3_prefix
+    attr_reader :logger
 
     def url
       uri = data_files.first.url.dup
