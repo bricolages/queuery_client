@@ -41,6 +41,11 @@ module QueueryClient
       end
     end
 
+    # poll returns the results only if the query has already successed.
+    def poll_results(id)
+      get_query_results(id)
+    end
+
     def garage_client
       @garage_client ||= BasicAuthGarageClient.new(
         endpoint: options.endpoint,
@@ -56,6 +61,24 @@ module QueueryClient
 
     def default_options
       QueueryClient.configuration
+    end
+
+    private
+
+    def get_query_results(id)
+      query = get_query(id)
+
+      case query.status
+      when 'pending', 'running'
+        nil
+      when 'success'
+        UrlDataFileBundle.new(
+          query.data_file_urls,
+          s3_prefix: query.s3_prefix,
+        )
+      when 'failure'
+        raise QueryError.new(query.error)
+      end
     end
   end
 end
