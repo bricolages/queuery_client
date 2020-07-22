@@ -7,6 +7,7 @@ module QueueryClient
     def execute_query(select_stmt, values)
       garage_client.post("/v1/queries", q: select_stmt, values: values)
     end
+    alias start_query execute_query
 
     def get_query(id)
       garage_client.get("/v1/queries/#{id}", fields: '__default__,s3_prefix')
