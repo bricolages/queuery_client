@@ -7,6 +7,7 @@ module QueueryClient
     def execute_query(select_stmt, values)
       garage_client.post("/v1/queries", q: select_stmt, values: values)
     end
+    alias start_query execute_query
 
     def get_query(id)
       garage_client.get("/v1/queries/#{id}", fields: '__default__,s3_prefix')
@@ -41,6 +42,12 @@ module QueueryClient
       end
     end
 
+    # poll_result returns the results only if the query has already successed.
+    def poll_result(id)
+      query = get_query(id)
+      get_query_result(query)
+    end
+
     def garage_client
       @garage_client ||= BasicAuthGarageClient.new(
         endpoint: options.endpoint,
@@ -56,6 +63,22 @@ module QueueryClient
 
     def default_options
       QueueryClient.configuration
+    end
+
+    private
+
+    def get_query_result(query)
+      case query.status
+      when 'pending', 'running'
+        nil
+      when 'success'
+        UrlDataFileBundle.new(
+          query.data_file_urls,
+          s3_prefix: query.s3_prefix,
+        )
+      when 'failure'
+        raise QueryError.new(query.error)
+      end
     end
   end
 end
