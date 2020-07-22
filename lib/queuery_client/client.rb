@@ -42,10 +42,10 @@ module QueueryClient
       end
     end
 
-    # poll returns the results only if the query has already successed.
-    def poll_results(id)
+    # poll_result returns the results only if the query has already successed.
+    def poll_result(id)
       query = get_query(id)
-      get_query_results(query)
+      get_query_result(query)
     end
 
     def garage_client
@@ -67,7 +67,7 @@ module QueueryClient
 
     private
 
-    def get_query_results(query)
+    def get_query_result(query)
       case query.status
       when 'pending', 'running'
         nil
