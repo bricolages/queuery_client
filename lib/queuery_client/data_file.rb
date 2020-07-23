@@ -12,15 +12,21 @@ module QueueryClient
     end
 
     def each_row(&block)
+      return enum_for(:each_row) if !block_given?
+
       f = open
       begin
         if gzipped_object?
           f = Zlib::GzipReader.new(f)
         end
-        RedshiftCsvFile.new(f).each(&block)
+        RedshiftCsvFile.new(f).each do |row|
+          yield row
+        end
       ensure
         f.close
       end
+
+      self
     end
   end
 end
