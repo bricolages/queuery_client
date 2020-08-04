@@ -1,5 +1,8 @@
 module QueueryClient
   class Configuration
+    REQUIRED_KEYS = [:endpoint, :token, :token_secret]
+    OPTIONAL_KEYS = [:host_header]
+
     def initialize(options = {})
       @options = options
     end
@@ -12,13 +15,19 @@ module QueueryClient
       @options = nil
     end
 
-    [
-      :endpoint,
-      :token,
-      :token_secret,
-    ].each do |key|
+    REQUIRED_KEYS.each do |key|
       define_method(key) do
         options.fetch(key)
+      end
+
+      define_method("#{key}=") do |value|
+        options[key] = value
+      end
+    end
+
+    OPTIONAL_KEYS.each do |key|
+      define_method(key) do
+        options[key]
       end
 
       define_method("#{key}=") do |value|
