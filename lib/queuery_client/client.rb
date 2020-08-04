@@ -54,7 +54,9 @@ module QueueryClient
         path_prefix: '/',
         login: options.token,
         password: options.token_secret
-      )
+      ).tap do |client|
+        client.headers['Host'] = options.host_header if options.host_header
+      end
     end
 
     def options
