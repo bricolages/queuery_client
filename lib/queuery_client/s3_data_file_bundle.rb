@@ -1,5 +1,6 @@
 require 'queuery_client/data_file_bundle'
 require 'queuery_client/s3_data_file'
+require 'queuery_client/s3_manifest_file'
 require 'aws-sdk-s3'
 require 'logger'
 
@@ -23,6 +24,12 @@ module QueueryClient
     def data_files
       b = Aws::S3::Resource.new(client: @s3_client).bucket(@bucket)
       b.objects(prefix: @prefix).map {|obj| S3DataFile.new(obj) }
+    end
+
+    def manifest_file
+      b = Aws::S3::Resource.new(client: @s3_client).bucket(@bucket)
+      obj = b.object("#{@prefix}manifest")
+      S3ManifestFile.new(obj)
     end
   end
 end

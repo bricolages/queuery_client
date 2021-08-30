@@ -4,8 +4,8 @@ module QueueryClient
       @options = options
     end
 
-    def execute_query(select_stmt, values)
-      garage_client.post("/v1/queries", q: select_stmt, values: values)
+    def execute_query(select_stmt, values, enable_cast)
+      garage_client.post("/v1/queries", q: select_stmt, values: values, enable_cast: enable_cast)
     end
     alias start_query execute_query
 
@@ -24,17 +24,18 @@ module QueueryClient
       end
     end
 
-    def query_and_wait(select_stmt, values)
-      query = execute_query(select_stmt, values)
+    def query_and_wait(select_stmt, values, enable_cast)
+      query = execute_query(select_stmt, values, enable_cast)
       wait_for(query.id)
     end
 
-    def query(select_stmt, values)
-      query = query_and_wait(select_stmt, values)
+    def query(select_stmt, values, enable_cast)
+      query = query_and_wait(select_stmt, values, enable_cast)
       case query.status
       when 'success'
         UrlDataFileBundle.new(
           query.data_file_urls,
+          query.manifest_file_url,
           s3_prefix: query.s3_prefix,
         )
       when 'failed'
@@ -76,6 +77,7 @@ module QueueryClient
       when 'success'
         UrlDataFileBundle.new(
           query.data_file_urls,
+          query.manifest_file_url,
           s3_prefix: query.s3_prefix,
         )
       when 'failure'
