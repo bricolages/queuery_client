@@ -32,5 +32,9 @@ module QueueryClient
       prefix = s3_uri.path[1..-1] # trim heading slash
       S3DataFileBundle.new(bucket, prefix)
     end
+
+    def has_manifest?
+      !@manifest_file.nil?
+    end
   end
 end

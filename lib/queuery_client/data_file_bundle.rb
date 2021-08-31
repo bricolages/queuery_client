@@ -5,6 +5,7 @@ module QueueryClient
   class DataFileBundle
     # abstract data_files :: [DataFile]
     # abstract manifest_file :: ManifestFile
+    # abstract def has_manifest?
 
     def each_row(&block)
       return enum_for(:each_row) if !block_given?

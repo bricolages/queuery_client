@@ -1,7 +1,7 @@
 require 'json'
 
 module QueueryClient
-  class ManifestFile
+  class ManifestFile # abstract class
     def manifest_object?
       /\.manifest(?:\.|\z)/ =~ File.basename(key)
     end
@@ -14,10 +14,6 @@ module QueueryClient
       ensure
         f.close
       end
-    end
-
-    def has_manifest?
-      !manifest_file.nil?
     end
   end
 end

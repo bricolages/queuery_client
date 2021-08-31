@@ -31,5 +31,9 @@ module QueueryClient
       obj = b.object("#{@prefix}manifest")
       S3ManifestFile.new(obj)
     end
+
+    def has_manifest?
+      !manifest_file.nil?
+    end
   end
 end
