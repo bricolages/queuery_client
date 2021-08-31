@@ -17,7 +17,7 @@ module QueueryClient
     end
 
     def query(select_stmt, values = [], enable_cast: false)
-      Client.new.query(select_stmt, values, enable_cast)
+      Client.new.query(select_stmt, values, enable_cast: enable_cast)
     end
   end
 end

@@ -4,8 +4,8 @@ module QueueryClient
       @options = options
     end
 
-    def execute_query(select_stmt, values, enable_cast)
-      garage_client.post("/v1/queries", q: select_stmt, values: values, enable_cast: enable_cast)
+    def execute_query(select_stmt, values, enable_cast: false)
+      garage_client.post("/v1/queries", q: select_stmt, values: values, enable_metadata: enable_cast)
     end
     alias start_query execute_query
 
@@ -24,13 +24,13 @@ module QueueryClient
       end
     end
 
-    def query_and_wait(select_stmt, values, enable_cast)
-      query = execute_query(select_stmt, values, enable_cast)
+    def query_and_wait(select_stmt, values, enable_cast: false)
+      query = execute_query(select_stmt, values, enable_cast: enable_cast)
       wait_for(query.id)
     end
 
-    def query(select_stmt, values, enable_cast)
-      query = query_and_wait(select_stmt, values, enable_cast)
+    def query(select_stmt, values, enable_cast: false)
+      query = query_and_wait(select_stmt, values, enable_cast: enable_cast)
       case query.status
       when 'success'
         UrlDataFileBundle.new(
