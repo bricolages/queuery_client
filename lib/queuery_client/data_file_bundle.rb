@@ -35,7 +35,7 @@ module QueueryClient
           value.to_i
         when 'numeric', 'double precision'
           value.to_f
-        when 'character', 'character varing'
+        when 'character', 'character varying'
           value
         when 'timestamp without time zone', 'timestamp with time zone'
           Time.parse(value)
@@ -44,7 +44,7 @@ module QueueryClient
         when 'boolean'
           value == 'true' ? true : false
         else
-          value
+          raise "not support data type: #{type}"
         end
       end
     end
