@@ -26,6 +26,8 @@ module QueueryClient
     end
     alias each each_row
 
+    private
+
     def type_cast(row)
       row.zip(manifest_file.column_types).map do |value, type|
         next nil if (value == '' and type != 'character varing') # null becomes '' on unload
