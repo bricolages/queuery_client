@@ -1,3 +1,4 @@
+require 'queuery_client/redshift_data_type'
 require 'date'
 require 'time'
 
@@ -14,7 +15,7 @@ module QueueryClient
         if file.data_object?
           file.each_row do |row|
             if has_manifest?
-              yield type_cast(row)
+              yield RedshiftDataType.type_cast(row, manifest_file)
             else
               yield row
             end
@@ -26,29 +27,5 @@ module QueueryClient
     end
     alias each each_row
 
-    private
-
-    def type_cast(row)
-      row.zip(manifest_file.column_types).map do |value, type|
-        next nil if (value == '' and type != 'character varing') # null becomes '' on unload
-
-        case type
-        when 'smallint', 'integer', 'bigint'
-          value.to_i
-        when 'numeric', 'double precision'
-          value.to_f
-        when 'character', 'character varying'
-          value
-        when 'timestamp without time zone', 'timestamp with time zone'
-          Time.parse(value)
-        when 'date'
-          Date.parse(value)
-        when 'boolean'
-          value == 'true' ? true : false
-        else
-          raise "not support data type: #{type}"
-        end
-      end
-    end
   end
 end
