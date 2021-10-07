@@ -2,7 +2,7 @@ require 'redshift_csv_file'
 require 'zlib'
 
 module QueueryClient
-  class DataFile
+  class DataFile # abstract class
     def data_object?
       /\.csv(?:\.|\z)/ =~ File.basename(key)
     end
