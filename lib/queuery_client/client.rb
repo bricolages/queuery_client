@@ -14,14 +14,18 @@ module QueueryClient
       garage_client.get("/v1/queries/#{id}", fields: '__default__,s3_prefix' + query_option_fields)
     end
 
+    MAX_POLLING_INTERVAL = 30
+
     def wait_for(id, query_options)
+      n = 0
       loop do
         query = get_query(id, query_options)
         case query.status
         when 'success', 'failed'
           return query
         end
-        sleep 3
+        n += 1
+        sleep [3 * n, MAX_POLLING_INTERVAL].min
       end
     end
 
