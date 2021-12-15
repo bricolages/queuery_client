@@ -17,15 +17,20 @@ module QueueryClient
     MAX_POLLING_INTERVAL = 30
 
     def wait_for(id, query_options)
-      n = 0
+      n = 1
       loop do
-        query = get_query(id, query_options)
-        case query.status
-        when 'success', 'failed'
-          return query
+        begin
+          query = get_query(id, query_options)
+          case query.status
+          when 'success', 'failed'
+            return query
+          end
+        rescue GarageClient::GatewayTimeout
+          warn "#{$PROGRAM_NAME}: warning: queuery polling timeout occurred"
         end
+        polling_interval = [3 * n, MAX_POLLING_INTERVAL].min
+        sleep polling_interval
         n += 1
-        sleep [3 * n, MAX_POLLING_INTERVAL].min
       end
     end
 
