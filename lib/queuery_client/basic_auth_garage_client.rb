@@ -4,7 +4,7 @@ module QueueryClient
   class BasicAuthGarageClient < GarageClient::Client
     # Override
     def apply_auth_middleware(faraday_builder)
-      faraday_builder.use Faraday::Request::BasicAuthentication, login, password
+      faraday_builder.request :authorization, :basic, login, password
     end
 
     def login

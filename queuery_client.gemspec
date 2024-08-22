@@ -28,10 +28,10 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'garage_client'
+  spec.add_dependency 'garage_client', '>= 3.0.0'
   spec.add_dependency 'redshift_csv_file'
   spec.add_dependency 'aws-sdk-s3'
-  spec.add_development_dependency "bundler", "~> 1.13"
-  spec.add_development_dependency "rake", "~> 12.0"
+  spec.add_development_dependency "bundler", ">= 1.13"
+  spec.add_development_dependency "rake", ">= 12.0"
   spec.add_development_dependency "pry"
 end
